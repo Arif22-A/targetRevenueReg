@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Target Minimum Revenue</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            background-color: #ca631e;
+            font-size: 22px;
+            text-align: center;
+        }
+        h2 {
+            width: 25%;
+        }
+        .form-group {
+            margin-bottom: 15px;
+            width: 100%;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #504d4d;
+        }
+        .result p {
+            font-weight: bold;
+            color: #007BFF;
+        }
+    </style>
+</head>
+<body>
+    <h1>Target Minimum Revenue</h1>
+
+    <!-- Header Input -->
+     <h2>
+    <div class="form-group">
+        <label for="company-name">Company Name</label>
+        <input type="text" id="company-name" placeholder="Enter company name">
+    </div>
+    <div class="form-group">
+        <label for="date">Date</label>
+        <input type="date" id="date">
+    </div>
+    <div class="form-group">
+        <label for="date">To Date</label>
+        <input type="date" id="date">
+    </div>
+    <div class="form-group">
+        <label for="reporter-name">Reporter Name</label>
+        <input type="text" id="reporter-name" placeholder="Enter reporter name">
+    </div>
+     </h2>
+
+    <hr>
+
+    <!-- Form Inputs -->
+    <div class="form-group">
+        <label for="total-rooms">Total Rooms</label>
+        <input type="number" id="total-rooms" placeholder="Enter total rooms">
+    </div>
+    <div class="form-group">
+        <label for="occupancy-rate">Occupancy Rate (%)</label>
+        <input type="number" id="occupancy-rate" placeholder="Enter occupancy rate (e.g., 70 for 70%)">
+    </div>
+    <div class="form-group">
+        <label for="average-daily-rate">Average Daily Rate</label>
+        <input type="text" id="average-daily-rate" placeholder="Enter average daily rate">
+    </div>
+    <div class="form-group">
+        <label for="seating-capacity">Seating Capacity (Restaurant)</label>
+        <input type="number" id="seating-capacity" placeholder="Enter seating capacity">
+    </div>
+    <div class="form-group">
+        <label for="turnover-rate">Turnover Rate (times/day)</label>
+        <input type="number" id="turnover-rate" placeholder="Enter turnover rate">
+    </div>
+    <div class="form-group">
+        <label for="average-spend">Average Spend (per customer)</label>
+        <input type="text" id="average-spend" placeholder="Enter average spend per customer">
+    </div>
+    <div class="form-group">
+        <label for="meeting-room-capacity">Meeting Room Capacity</label>
+        <input type="number" id="meeting-room-capacity" placeholder="Enter meeting room capacity">
+    </div>
+    <div class="form-group">
+        <label for="average-events">Average Events (per month)</label>
+        <input type="number" id="average-events" placeholder="Enter average events per month">
+    </div>
+    <div class="form-group">
+        <label for="event-rate">Event Rate (per person)</label>
+        <input type="text" id="event-rate" placeholder="Enter event rate">
+    </div>
+    <!-- Result Section -->
+    <div class="result">
+        <h2>Result</h2>
+        <p id="result">Fill in the data and click "Calculate Target Revenue"</p>
+    </div>
+     <!-- Buttons -->
+     <button onclick="calculateRevenue()">Calculate Target Revenue</button>
+
+    
+ 
+
+    <script>
+        function formatNumber(num) {
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        }
+
+        function parseNumber(input) {
+            return parseFloat(input.replace(/\./g, "")) || 0;
+        }
+
+        function calculateRevenue() {
+            const totalRooms = parseFloat(document.getElementById('total-rooms').value) || 0;
+            const occupancyRate = parseFloat(document.getElementById('occupancy-rate').value) / 100 || 0;
+            const averageDailyRate = parseNumber(document.getElementById('average-daily-rate').value);
+            const seatingCapacity = parseFloat(document.getElementById('seating-capacity').value) || 0;
+            const turnoverRate = parseFloat(document.getElementById('turnover-rate').value) || 0;
+            const averageSpend = parseNumber(document.getElementById('average-spend').value);
+            const meetingRoomCapacity = parseFloat(document.getElementById('meeting-room-capacity').value) || 0;
+            const averageEvents = parseFloat(document.getElementById('average-events').value) || 0;
+            const eventRate = parseNumber(document.getElementById('event-rate').value);
+
+            const roomRevenue = totalRooms * occupancyRate * averageDailyRate * 30;
+            const fnbRevenue = seatingCapacity * turnoverRate * averageSpend * 30;
+            const meetingRevenue = meetingRoomCapacity * averageEvents * eventRate;
+
+            const totalRevenue = roomRevenue + fnbRevenue + meetingRevenue;
+
+            document.getElementById('result').innerText = `Target Revenue Minimum: Rp ${formatNumber(totalRevenue.toFixed(2))}`;
+        }
+        
+    </script>
+</body>
+</html>
